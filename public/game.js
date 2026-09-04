@@ -1,53 +1,53 @@
 
-const socket=io(),screen=document.getElementById("screen"),hud=document.getElementById("hud"),roomHud=document.getElementById("roomHud"),scoreHud=document.getElementById("scoreHud");
-let state=null,me={room:null,name:"ARDELL"},triviaIndex=0,answered=false,rendered=null,seenGifts=new Set();
-const Q=[
- ["What is Ardell's favorite activity?",["Climbing","Sleeping","Shopping","Cooking"],0,"D. Annoying Yasmine may also be accepted 😌"],
- ["What is Ardell's preferred potion?",["Coffee","Water","Beer","Milk"],2,""],
- ["Ardell's strongest stat is...",["Patience","Ambition","Staying quiet","Giving up"],1,""],
- ["Where was Ardell & Yasmine's first date?",["Bali","First Crack","Cinema","Creature Center"],1,""],
- ["What does Yasmine call Ardell?",["Pikachu","Darling","Babuy","Professor"],2,"NEW CREATURE DATA: BABUY!"]
+const socket=io(),c=document.querySelector("#game"),ctx=c.getContext("2d");ctx.imageSmoothingEnabled=false;
+let state=null,myId=null,beerNeedle=0,beerDir=1,catchX=500,catchDir=1;
+const games=[
+ {title:"🧗 CLIMB BATTLE",action:"CLIMB!",desc:"Mash CLIMB! Race to the top."},
+ {title:"🍺 BEER CHUG BATTLE",action:"DRINK!",desc:"Tap DRINK when the moving marker is in the center."},
+ {title:"🎯 CATCH THE BABUY",action:"CATCH!",desc:"Tap CATCH when Babuy crosses the target."},
+ {title:"🪨 BOULDER DASH",action:"JUMP!",desc:"Tap JUMP when the boulder reaches the landing zone."}
 ];
-const E=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const P=()=>state?Object.values(state.players):[],M=()=>state?.players?.[socket.id],H=()=>state&&state.hostId===socket.id;
-function showHud(on){hud.classList.toggle("hidden",!on);if(state){roomHud.textContent="ROOM "+state.code;scoreHud.textContent=M()?.score||0}}
-function toast(t){let d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1400)}
-function scene(asset,inner="",hudOn=true){showHud(hudOn);screen.innerHTML=`<section class="screen ${hudOn?"withHud":""}"><div class="scene"><div class="art" style="background-image:url('/assets/${asset}')"></div>${inner}</div></section>`}
-function start(){scene("title_hd.jpg",`<div class="cornerDate">6 SEPTEMBER 2026</div><div class="titleOverlay"><button class="btn green" onclick="home()">▶ PRESS TO START</button></div>`,false)}
-function home(){showHud(false);screen.innerHTML=`<section class="screen"><div class="form pixelBox"><h1>ARDELL 26</h1><p>THE BABUY QUEST · MULTIPLAYER ONLINE RPG</p><label>TRAINER NAME</label><input id="name" class="field" maxlength="14" value="ARDELL"><div class="two"><button class="btn green" onclick="create()">CREATE ROOM</button><button class="btn" onclick="joinForm()">JOIN ROOM</button></div><p>2–4 players · no install · browser only</p></div></section>`}
-function joinForm(){showHud(false);screen.innerHTML=`<section class="screen"><div class="form pixelBox"><h1>JOIN ADVENTURE</h1><label>TRAINER NAME</label><input id="name" class="field" maxlength="14" placeholder="YASMINE"><label>ROOM CODE</label><input id="code" class="field" maxlength="8" placeholder="BABUY26"><div class="two"><button class="btn green" onclick="join()">JOIN</button><button class="btn" onclick="home()">BACK</button></div></div></section>`}
-function create(){me.name=(document.getElementById("name").value||"ARDELL").trim().toUpperCase();socket.emit("room:create",{name:me.name},r=>{if(!r.ok)return toast(r.message);state=r.room;me.room=r.code;render()})}
-function join(){me.name=(document.getElementById("name").value||"PLAYER").trim().toUpperCase();let code=document.getElementById("code").value.trim().toUpperCase();socket.emit("room:join",{name:me.name,code},r=>{if(!r.ok)return toast(r.message);state=r.room;me.room=r.code;render()})}
-function lobby(){showHud(false);let rows=P().map(p=>`<div class="player"><div class="portrait"></div><b>${E(p.name)} ${p.id===state.hostId?"👑":""}</b><span class="${p.ready?"ready":"wait"}">${p.ready?"READY":"WAITING"}</span></div>`).join("");screen.innerHTML=`<section class="screen"><div class="lobby pixelBox"><h1>MULTIPLAYER LOBBY</h1><div class="code">ROOM CODE: ${state.code}</div>${rows}<div style="text-align:center;margin-top:13px">${!H()?`<button class="btn" onclick="socket.emit('player:ready',!M().ready)">${M()?.ready?"NOT READY":"READY UP"}</button>`:""}${H()?`<button class="btn green" onclick="socket.emit('game:start')">START ADVENTURE!</button>`:"<p>Waiting for host…</p>"}</div></div></section>`}
-function firstcrack(){scene("map_hd.jpg",`<div class="bottomPanel"><button class="btn green rightAction" ${H()?"":"disabled"} onclick="adv('climb')">ENTER FIRST CRACK ▶</button><h2>WORLD MAP</h2>Our adventure begins at <b>First Crack Town</b>. “People come here looking for adventure. Sometimes they find something else.”<br><b>FIRST STONE obtained.</b></div>`)}
-function climb(){let end=state.climbEndsAt||Date.now()+25000,lanes=P().map((p,i)=>`<div class="lane"><div class="climber" id="c-${p.id}" style="bottom:${p.climb||0}%">${i%2?"🧗‍♀️":"🧗"}</div><div class="playerName">${E(p.name)}</div></div>`).join("");scene("climb.jpg",`<div class="timer" id="tm">25</div><div class="climbTrack">${lanes}</div><div class="bottomPanel"><button class="btn green rightAction" onclick="socket.emit('climb:tap')">CLIMB!</button><h2>AMBITION MOUNTAIN · CLIMB RACE</h2>Tap quickly, but reckless button-mashing can make you slip. Patience is also a skill, Trainer.</div>`);let tick=setInterval(()=>{if(!state||state.stage!=="climb")return clearInterval(tick);let e=document.getElementById("tm");if(e)e.textContent=Math.max(0,Math.ceil((end-Date.now())/1000))},200)}
-function bali(){let got=new Set(state.caretaker||[]);scene("bali.jpg",`<div class="quest pixelBox"><h3>CARETAKER QUEST ❤️</h3><button class="btn item" onclick="care('tea')" ${got.has("tea")?"disabled":""}>🍵 WARM TEA ${got.has("tea")?"✓":""}</button><button class="btn item" onclick="care('medicine')" ${got.has("medicine")?"disabled":""}>💊 MEDICINE ${got.has("medicine")?"✓":""}</button><button class="btn item" onclick="care('blanket')" ${got.has("blanket")?"disabled":""}>🛏 BLANKET ${got.has("blanket")?"✓":""}</button>${got.size===3?`<p><b>ACHIEVEMENT UNLOCKED: CARETAKER</b><br>Sometimes the strongest trainers are the ones who stay.</p>${H()?`<button class="btn green" onclick="adv('trivia')">NEXT ▶</button>`:""}`:""}</div>`)}
-function care(x){socket.emit("caretaker:take",x)}
-function trivia(){let q=Q[triviaIndex];if(!q){scene("trivia.jpg",`<div class="triviaPanel pixelBox"><h2>TRIVIA COMPLETE!</h2>${H()?`<button class="btn green" onclick="adv('tavern')">CONTINUE ▶</button>`:"Waiting for host…"}</div>`);return}answered=false;scene("trivia.jpg",`<div class="triviaPanel pixelBox"><h2>WHO KNOWS ARDELL BEST?</h2><div class="question">${E(q[0])}</div><div class="answers">${q[1].map((a,i)=>`<button class="answer" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${E(a)}</button>`).join("")}</div><p>QUESTION ${triviaIndex+1}/5</p><div id="note"></div></div>`)}
-function answer(i){
-  if(answered) return;
-  answered = true;
-  const q = Q[triviaIndex];
-  const buttons = [...document.querySelectorAll(".answer")];
-  buttons.forEach((b,j)=>{
-    if(j===q[2]) b.classList.add("correct");
-    else if(j===i) b.classList.add("wrong");
-  });
-  socket.emit("trivia:answer",{question:triviaIndex,answer:i,correct:i===q[2]});
-  const note=document.getElementById("note");
-  if(note) note.innerHTML=(i===q[2]?"<b>CORRECT! +120</b>":"<b>WRONG!</b>")+" "+q[3];
-  setTimeout(()=>{triviaIndex++;trivia()},1050);
+function rect(x,y,w,h,col){ctx.fillStyle=col;ctx.fillRect(x,y,w,h)}
+function txt(s,x,y,n=18,col="#fff"){ctx.font=`bold ${n}px monospace`;ctx.fillStyle="#111";ctx.fillText(s,x+2,y+2);ctx.fillStyle=col;ctx.fillText(s,x,y)}
+function person(x,y,col="#eee"){rect(x-11,y-28,22,18,"#2b2019");rect(x-9,y-24,18,16,"#d7a57a");rect(x-12,y-8,24,24,col);rect(x-10,y+16,8,15,"#26394c");rect(x+2,y+16,8,15,"#26394c")}
+function render(){
+ rect(0,0,1000,560,"#6596aa");rect(0,350,1000,210,"#49663e");
+ if(!state){requestAnimationFrame(render);return}
+ let r=state.round,g=games[r];
+ document.querySelector("#round").textContent=g.title;
+ if(r===0){ // climbing wall
+   rect(80,45,840,450,"#9b8061");for(let i=0;i<80;i++){let x=(i*83)%810+95,y=(i*47)%410+60;rect(x,y,14,9,["#b64d3d","#e1b62f","#477ca1","#517b45"][i%4])}
+   Object.values(state.players).forEach((p,i)=>{let y=480-p.progress*3.8,x=180+i*200;person(x,y,["#eee","#e5a85e","#5c8bb3","#a96784"][i%4]);txt(p.name,x-35,y-38,14,"#ffe17b")})
+ } else if(r===1){
+   rect(0,360,1000,200,"#8b6c48");rect(80,80,840,220,"#18232c");txt("BEER BAR — HIT THE GOLD ZONE",250,125,24,"#ffd45a");
+   rect(180,190,640,40,"#3c4650");rect(450,190,100,40,"#d4a934");rect(180+beerNeedle*6.4,175,8,70,"#fff");beerNeedle+=beerDir*1.4;if(beerNeedle>=100||beerNeedle<=0)beerDir*=-1;
+   Object.values(state.players).forEach((p,i)=>{person(170+i*220,420,["#eee","#e5a85e","#5c8bb3","#a96784"][i%4]);txt(`${p.name} ${Math.round(p.progress)}%`,120+i*220,475,14)})
+ } else if(r===2){
+   rect(0,350,1000,210,"#c5aa68");rect(0,310,1000,40,"#4e8fa7");rect(420,150,160,130,"#4a3729");txt("CATCH ZONE",435,135,17,"#ffe17b");
+   rect(catchX-18,300,36,30,"#df9b86");rect(catchX-12,290,24,14,"#2c201d");catchX+=catchDir*5;if(catchX>900||catchX<100)catchDir*=-1;
+   Object.values(state.players).forEach((p,i)=>{txt(`${p.name}: ${Math.round(p.progress)}%`,80+i*225,520,14)})
+ } else {
+   rect(0,0,1000,560,"#344357");rect(0,400,1000,160,"#59614d");rect(760,300,120,100,"#ad925e");txt("LAND HERE",750,285,16,"#ffe17b");
+   rect(catchX-25,365,50,35,"#777");catchX+=catchDir*6;if(catchX>920||catchX<80)catchDir*=-1;
+   Object.values(state.players).forEach((p,i)=>{person(120+i*130,380,["#eee","#e5a85e","#5c8bb3","#a96784"][i%4]);txt(`${p.name} ${Math.round(p.progress)}%`,70+i*220,500,14)})
+ }
+ txt(state.phase==="playing"?`TIME ${state.time}`:"GET READY",20,35,20,"#ffe17b");
+ requestAnimationFrame(render)
 }
-function tavern(){scene("tavern.jpg",`<div class="bottomPanel"><button class="btn gold rightAction" ${H()?"":"disabled"} onclick="adv('giftrush')">DRINK & CONTINUE ▶</button><h2>THE THIRSTY BABUY 🍺</h2>GOLDEN POTION: +100 Happiness · −20 Accuracy · +200 Confidence.<br><i>“We serve the finest potion in the region.”</i></div>`)}
-function gift(){seenGifts=new Set();let end=state.giftEndsAt||Date.now()+18000;scene("gift.jpg",`<div class="timer" id="tm">18</div><div class="gifts" id="gifts"></div><div class="bottomPanel"><h2>GIFT RUSH</h2>Collect as many gifts as you can before time runs out!</div>`);let area=document.getElementById("gifts");for(let i=0;i<22;i++){let b=document.createElement("button");b.className="gift";b.id="g-"+i;b.textContent=i%5===0?"🎂":"🎁";b.style.left=(Math.random()*90)+"%";b.style.top=(Math.random()*80)+"%";b.onclick=()=>collect(i);area.appendChild(b)}let tick=setInterval(()=>{if(!state||state.stage!=="giftrush")return clearInterval(tick);let e=document.getElementById("tm");if(e)e.textContent=Math.max(0,Math.ceil((end-Date.now())/1000))},200)}
-function collect(i){if(seenGifts.has(i))return;seenGifts.add(i);socket.emit("gift:collect",i);document.getElementById("g-"+i)?.remove()}
-function boss(){let pct=Math.max(0,(state.bossHp||0)/10);let ranks=P().sort((a,b)=>b.bossDamage-a.bossDamage).map(p=>`<div class="rankRow"><span>${E(p.name)}</span><b>${p.bossDamage||0}</b></div>`).join("");scene("boss.jpg",`<div class="hp"><i style="width:${pct}%"></i></div><div class="ranking pixelBox">${ranks}</div><div class="bossButtons"><button class="btn red" onclick="hit(false)">⚔ ATTACK</button><button class="btn gold" onclick="hit(true)">🐷 BABUY!</button></div><div class="bottomPanel"><h2>THE TIMEKEEPER</h2>TIMEKEEPER used <b>GROW OLDER</b>! Work together to unlock Ardell's next level.</div>`)}
-function hit(s){socket.emit("boss:hit",{special:s});if(navigator.vibrate)navigator.vibrate(s?[30,20,30]:20)}
-function ending(){scene("ending.jpg",`<div class="endingText pixelBox"><h2>YASMINE</h2><p>You made it.</p><p>I knew you would.</p><p>Although... probably with very little patience. 😂</p><p>Happy 26th Birthday, Babuy.</p><p>Keep climbing higher, chasing bigger things...</p><p>and keep being you.</p><p>I'll always be cheering for you.</p><h3>I love you. ❤️</h3>${H()?`<button class="btn green" onclick="adv('finale')">RECEIVE YASMINE'S CHARM</button>`:"<p>Waiting for Ardell…</p>"}</div>`,false)}
-function finale(){let ranks=P().sort((a,b)=>b.score-a.score).map((p,i)=>`<div class="rankRow"><span>${i+1}. ${E(p.name)} ${i===0?"🏆":""}</span><b>${p.score}</b></div>`).join("");scene("finale.jpg",`<div class="finalTitle">HAPPY 26TH BIRTHDAY!<br>ARDELL ❤️</div><div class="finalWrap"><div class="finalCard pixelBox"><h2>LEVEL UP!</h2>ARDELL · LV.25 → LV.26<hr>AMBITION +10<br>STRENGTH +10<br>COURAGE +10<br>HARD WORK +10<br>WISDOM +5<br><b>PATIENCE +0 😂</b><hr><b>YASMINE'S CHARM ❤️</b><br>SUPPORT +∞ · LUCK +∞</div><div class="finalCard pixelBox"><h2>FINAL TRAINER RANKING</h2>${ranks}<hr>🏆 ULTIMATE TRAINER · 🧗 FASTEST CLIMBER · 🧠 TRIVIA MASTER · 🐷 MOST CHAOTIC PLAYER</div></div>`,false)}
-function adv(stage){socket.emit("stage:advance",{stage})}
-function render(){if(!state)return;showHud(!["lobby","ending","finale"].includes(state.stage));if(rendered!==state.stage){rendered=state.stage;if(state.stage==="trivia")triviaIndex=0}
-({lobby,firstcrack,climb,bali,trivia,tavern,giftrush:gift,boss,ending,finale}[state.stage]||lobby)()}
-socket.on("room:update",r=>{let old=state?.stage;state=r;if(old===r.stage&&r.stage==="climb"){P().forEach(p=>{let e=document.getElementById("c-"+p.id);if(e)e.style.bottom=(p.climb||0)+"%"});scoreHud.textContent=M()?.score||0}else if(old===r.stage&&r.stage==="boss"){let bar=document.querySelector(".hp i");if(bar)bar.style.width=Math.max(0,(r.bossHp||0)/10)+"%";scoreHud.textContent=M()?.score||0}else render()});
-socket.on("gift:taken",({giftId})=>document.getElementById("g-"+giftId)?.remove());
-start();
+socket.on("connect",()=>myId=socket.id);
+socket.on("state",s=>{state=s;updateUI();if(s.phase==="result"&&s.winner){let w=s.players[s.winner];show(`${w?.name||"PLAYER"} WINS! 🏆<br>+ points — next battle loading...`)}})
+socket.on("full",()=>alert("Room is full (maximum 4 players)."));
+function updateUI(){if(!state)return;let p=document.querySelector("#players");p.innerHTML=Object.values(state.players).map(v=>`<div class="player ${v.id===myId?"me":""}">${v.name} ⭐ ${v.score} ${v.ready?"✓":""}</div>`).join("");
+ let g=games[state.round];document.querySelector("#action").textContent=g.action;document.querySelector("#action").disabled=state.phase!=="playing";document.querySelector("#ready").disabled=state.phase!=="lobby";document.querySelector("#startBtn").disabled=state.phase!=="lobby"||Object.keys(state.players).length<2}
+function show(s){let b=document.querySelector("#banner");b.innerHTML=s;b.style.display="block";setTimeout(()=>b.style.display="none",3000)}
+document.querySelector("#joinBtn").onclick=()=>{let name=document.querySelector("#name").value.trim();if(!name)return alert("Enter player name");socket.emit("join",{name,room:document.querySelector("#room").value});document.querySelector("#join").style.display="none"}
+document.querySelector("#ready").onclick=()=>socket.emit("ready");
+document.querySelector("#startBtn").onclick=()=>socket.emit("start");
+document.querySelector("#action").onclick=()=>{
+ if(!state||state.phase!=="playing")return;let hit=true,power=1;
+ if(state.round===1){let d=Math.abs(beerNeedle-50);power=Math.max(1,6-d/10)}
+ if(state.round===2)hit=catchX>420&&catchX<580;
+ if(state.round===3)hit=catchX>735&&catchX<900;
+ socket.emit("action",{hit,power})
+};
+render();

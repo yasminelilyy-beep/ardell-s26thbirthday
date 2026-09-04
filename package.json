@@ -1,10 +1,12 @@
 {
-  "name": "ardell26-the-babuy-quest",
-  "version": "1.0.0",
+  "name": "ardell26-multiplayer-battles",
+  "version": "4.0.0",
   "private": true,
-  "description": "Multiplayer birthday pixel RPG for Ardell's 26th birthday",
-  "main": "server.js",
-  "scripts": {"start": "node server.js"},
-  "dependencies": {"express": "^4.21.2", "socket.io": "^4.8.1"},
-  "engines": {"node": ">=18"}
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
 }

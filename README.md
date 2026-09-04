@@ -1,19 +1,10 @@
-# ARDELL 26 — The Babuy Quest V2
+# Ardell 26 Multiplayer Battles
+2–4 player real-time party game. No quiz/questions.
 
-Visual upgrade for the existing Railway multiplayer project.
+Battles:
+1. Climb Battle
+2. Beer Chug timing battle
+3. Catch the Babuy
+4. Boulder Dash
 
-## Update existing deployment
-Replace the files in your GitHub repository with this package and commit to `main`.
-Railway will automatically redeploy because the repository is already connected.
-
-Main files:
-- package.json
-- server.js
-- railway.json
-- public/index.html
-- public/style.css
-- public/game.js
-- public/assets/*
-
-The multiplayer backend remains Node.js + Socket.IO.
-Best experienced on a phone in landscape mode.
+Upload all files/folders to the ROOT of the existing GitHub repository and replace existing files. Railway should redeploy automatically.

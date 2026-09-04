@@ -1,23 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#061229">
-  <title>Ardell 26 — The Babuy Quest</title>
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-<div id="rotate"><div class="rotateArrow">↻</div><strong>ROTATE YOUR DEVICE</strong><small>TO BEGIN YOUR ADVENTURE</small></div>
-<div id="app">
-  <header id="hud" class="hidden">
-    <div class="hudLogo">ARDELL 26</div>
-    <div id="roomHud" class="hudChip">ROOM —</div>
-    <div class="hudChip">SCORE <span id="scoreHud">0</span></div>
-  </header>
-  <main id="screen"></main>
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/game.js"></script>
-</body>
-</html>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Ardell 26 Multiplayer Battle</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<header><div><strong>ARDELL 26</strong><small>THE BABUY BATTLE</small></div><b id="round">CLIMB BATTLE</b><span>6 SEP 2026</span></header>
+<section id="arena"><canvas id="game" width="1000" height="560"></canvas><div id="banner"></div></section>
+<section id="panel"><div id="players"></div><button id="ready">READY!</button><button id="startBtn">START BATTLE</button><button id="action">CLIMB!</button></section>
+</main>
+<div id="join"><div class="card"><h1>ARDELL <i>26</i></h1><h2>MULTIPLAYER BATTLE</h2><p>2–4 players • no quiz • pure mini-game battles</p><input id="name" placeholder="PLAYER NAME" maxlength="14"><input id="room" value="BABUY26" maxlength="14"><button id="joinBtn">JOIN ROOM</button><small>Open the same Railway link on each phone. Use the same room code.</small></div></div>
+<script src="/socket.io/socket.io.js"></script><script src="game.js"></script></body></html>
