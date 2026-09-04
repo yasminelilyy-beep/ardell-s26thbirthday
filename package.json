@@ -1,6 +1,6 @@
 {
-  "name": "ardell26-multiplayer-battles",
-  "version": "4.0.0",
+  "name": "ardell26-pixel-playable-v5",
+  "version": "5.0.0",
   "private": true,
   "scripts": {
     "start": "node server.js"

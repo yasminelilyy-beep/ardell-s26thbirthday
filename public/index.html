@@ -1,8 +1,62 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Ardell 26 Multiplayer Battle</title><link rel="stylesheet" href="style.css"></head>
-<body><main>
-<header><div><strong>ARDELL 26</strong><small>THE BABUY BATTLE</small></div><b id="round">CLIMB BATTLE</b><span>6 SEP 2026</span></header>
-<section id="arena"><canvas id="game" width="1000" height="560"></canvas><div id="banner"></div></section>
-<section id="panel"><div id="players"></div><button id="ready">READY!</button><button id="startBtn">START BATTLE</button><button id="action">CLIMB!</button></section>
-</main>
-<div id="join"><div class="card"><h1>ARDELL <i>26</i></h1><h2>MULTIPLAYER BATTLE</h2><p>2–4 players • no quiz • pure mini-game battles</p><input id="name" placeholder="PLAYER NAME" maxlength="14"><input id="room" value="BABUY26" maxlength="14"><button id="joinBtn">JOIN ROOM</button><small>Open the same Railway link on each phone. Use the same room code.</small></div></div>
-<script src="/socket.io/socket.io.js"></script><script src="game.js"></script></body></html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>ARDELL 26 — The Babuy Quest</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="gameShell">
+  <header>
+    <div class="logo"><b>ARDELL</b><strong>26</strong><small>THE BABUY QUEST</small></div>
+    <div id="roundTitle">MULTIPLAYER PARTY BATTLE</div>
+    <div class="date">6 SEPTEMBER 2026</div>
+  </header>
+
+  <section id="hud">
+    <div id="roomHud">ROOM BABUY26</div>
+    <div id="timerHud">2–4 PLAYERS</div>
+    <div id="statusHud">WAITING</div>
+  </section>
+
+  <section id="stage">
+    <canvas id="game" width="1000" height="600"></canvas>
+    <div id="overlayMessage"></div>
+  </section>
+
+  <section id="controls">
+    <div id="playerCards"></div>
+    <div id="actionArea">
+      <button id="readyBtn">READY</button>
+      <button id="startBtn">START GAME</button>
+      <button id="mainAction">CLIMB!</button>
+      <div id="catchControls">
+        <button id="leftBtn">◀</button>
+        <button id="jumpBtn">JUMP</button>
+        <button id="rightBtn">▶</button>
+        <button id="catchBtn">CATCH!</button>
+      </div>
+      <button id="nextBtn">NEXT BATTLE</button>
+      <button id="againBtn">PLAY AGAIN</button>
+    </div>
+  </section>
+</div>
+
+<div id="joinScreen">
+  <div class="joinCard">
+    <div class="pixelBadge">26</div>
+    <h1>ARDELL 26</h1>
+    <h2>THE BABUY QUEST</h2>
+    <p>3 REAL-TIME BATTLES · 2–4 PLAYERS</p>
+    <label>PLAYER NAME<input id="nameInput" maxlength="12" placeholder="ARDELL"></label>
+    <label>ROOM CODE<input id="roomInput" maxlength="12" value="BABUY26"></label>
+    <button id="joinBtn">JOIN ADVENTURE</button>
+    <small>Open the same Railway link on every phone and use the same room code.</small>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
