@@ -1,0 +1,33 @@
+
+:root{--navy:#06152a;--navy2:#0d2542;--gold:#e9bd63;--cream:#f5e6bf;--blue:#2c63a9;--green:#4c963f;--red:#b83d45}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020914;color:white;font-family:"Courier New",monospace}
+button,input{font:inherit}button{cursor:pointer}body{image-rendering:pixelated}.hidden{display:none!important}
+#app,#screen{width:100%;height:100%}
+#hud{position:fixed;z-index:50;left:0;right:0;top:0;height:52px;padding:7px 11px;display:flex;align-items:center;gap:8px;background:#061326eb;border-bottom:3px solid #d29d4f}
+.hudLogo{margin-right:auto;font-weight:1000;color:#ffc93e;text-shadow:2px 2px #59331e}.hudChip{background:#0c233d;border:2px solid var(--gold);padding:6px 10px}
+.screen{height:100%;width:100%;display:flex;align-items:center;justify-content:center;padding:12px;background:#030b17}.withHud{padding-top:62px}
+.scene{width:min(96vw,1080px);height:min(88vh,690px);position:relative;overflow:hidden;border:4px solid #e2b965;box-shadow:0 0 0 4px #3e2c20,8px 8px 0 #0008;background:#0b1930}
+.art{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;filter:saturate(1.04) contrast(1.02)}
+.art:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#00122c08,#000b1770)}
+.pixelBox{background:#091b31ec;border:3px solid var(--gold);box-shadow:0 0 0 3px #34271e;color:#fff}
+.btn{border:3px solid #f1d185;background:linear-gradient(#3476c7,#174680);color:#fff;padding:11px 17px;font-weight:900;text-shadow:1px 2px #10233b;box-shadow:0 0 0 2px #14223a,4px 4px #020713;text-transform:uppercase}
+.btn.green{background:linear-gradient(#64ad4c,#347733)}.btn.red{background:linear-gradient(#c85a54,#7e3036)}.btn.gold{background:linear-gradient(#e0a53a,#9a6321)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 2px #14223a,1px 1px #020713}.btn:disabled{opacity:.45}
+.titleOverlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:22px;background:linear-gradient(180deg,transparent 55%,#020916b8)}
+.titleOverlay .btn{min-width:250px;font-size:20px}
+.cornerDate{position:absolute;left:50%;top:12px;transform:translateX(-50%);background:#071931dc;border:2px solid #e8bd66;padding:6px 12px;color:#f9e6ae}
+.form{width:min(90vw,540px);padding:18px}.form h1{color:#ffd05a;margin-top:0}.field{width:100%;padding:12px;margin:6px 0 13px;background:#051225;color:white;border:2px solid #ce9d50;text-transform:uppercase;outline:0}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lobby{width:min(92vw,650px);padding:18px;background:#081a30}.lobby h1{text-align:center;color:#f5d06e}.code{text-align:center;color:#ffd142;font-size:24px}.player{display:grid;grid-template-columns:42px 1fr auto;gap:9px;align-items:center;padding:9px 5px;border-bottom:1px solid #36516b}.portrait{width:35px;height:35px;background:linear-gradient(#171b25 0 28%,#eab78d 29% 68%,#1c3d64 69%);border:2px solid #d5ac61}.ready{color:#5be15c}.wait{color:#e6a14b}
+.bottomPanel{position:absolute;z-index:7;left:2%;right:2%;bottom:2%;padding:12px;background:#07182fea;border:3px solid #e8bd65;box-shadow:0 0 0 2px #4a3321}.bottomPanel h2{margin:0 0 5px;color:#f6cc62}.rightAction{float:right;margin-left:12px}
+.climbTrack{position:absolute;inset:10% 5% 17%;display:grid;grid-template-columns:repeat(4,1fr);gap:2%}.lane{position:relative;border-left:2px dashed #efd67c66;border-right:2px dashed #efd67c66}.climber{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:34px;transition:bottom .12s}.playerName{position:absolute;bottom:-25px;width:100%;text-align:center;font-size:11px;background:#051324c9}.timer{position:absolute;right:14px;top:14px;z-index:9;background:#07182e;border:2px solid #e4b763;padding:8px 12px;color:#ffd34f;font-size:20px;font-weight:bold}
+.quest{position:absolute;z-index:8;right:3%;top:12%;width:min(40%,340px);padding:13px}.quest button{width:100%;margin:5px 0;text-align:left}
+.triviaPanel{position:absolute;z-index:9;left:4%;top:12%;width:min(55%,570px);padding:16px}.question{font-size:22px;margin-bottom:12px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px}.answer{padding:11px;color:white;text-align:left;background:#102c4d;border:2px solid #c99e57}.answer.correct{background:#347a3b}.answer.wrong{background:#85373d}
+.gifts{position:absolute;inset:8% 3% 17%}.gift{position:absolute;background:transparent;border:0;font-size:35px;filter:drop-shadow(2px 2px 1px #000)}
+.hp{position:absolute;z-index:9;left:50%;top:25px;transform:translateX(-50%);width:min(65vw,600px);height:24px;background:#381922;border:3px solid #f4ddad}.hp i{display:block;height:100%;background:#e74852;transition:width .18s}
+.bossButtons{position:absolute;z-index:10;right:3%;bottom:4%;display:flex;gap:8px}
+.ranking{position:absolute;z-index:9;left:3%;bottom:3%;padding:10px;width:250px}.rankRow{display:flex;justify-content:space-between;border-bottom:1px solid #46627e;padding:5px}
+.endingText{position:absolute;z-index:10;right:4%;top:10%;width:min(48%,450px);padding:16px}.endingText h2{color:#ffd267}.finalWrap{position:absolute;z-index:8;left:4%;right:4%;bottom:5%;display:grid;grid-template-columns:1fr 1fr;gap:12px}.finalCard{padding:13px}.finalTitle{position:absolute;z-index:9;top:5%;left:50%;transform:translateX(-50%);text-align:center;color:#ffd044;font-size:clamp(25px,5vw,48px);font-weight:1000;text-shadow:3px 3px #472a1d}
+#rotate{display:none;position:fixed;inset:0;z-index:100;background:#06152a;color:#ffcf54;align-items:center;justify-content:center;flex-direction:column;text-align:center}.rotateArrow{font-size:70px}#rotate small{color:#f4dfb4;margin-top:7px}
+.toast{position:fixed;z-index:200;left:50%;top:65px;transform:translateX(-50%);background:#f4e5bf;color:#111d31;border:3px solid #543a24;padding:8px 15px}
+@media(max-width:760px){.answers{grid-template-columns:1fr}.quest{width:48%}.finalWrap{grid-template-columns:1fr}.finalCard:nth-child(1){display:none}}
+@media(orientation:portrait) and (max-width:900px){#app{display:none}#rotate{display:flex}}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#061229">
+  <title>Ardell 26 — The Babuy Quest</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="rotate"><div class="rotateArrow">↻</div><strong>ROTATE YOUR DEVICE</strong><small>TO BEGIN YOUR ADVENTURE</small></div>
+<div id="app">
+  <header id="hud" class="hidden">
+    <div class="hudLogo">ARDELL 26</div>
+    <div id="roomHud" class="hudChip">ROOM —</div>
+    <div class="hudChip">SCORE <span id="scoreHud">0</span></div>
+  </header>
+  <main id="screen"></main>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/game.js"></script>
+</body>
+</html>
