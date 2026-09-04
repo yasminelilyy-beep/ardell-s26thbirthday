@@ -24,7 +24,20 @@ function climb(){let end=state.climbEndsAt||Date.now()+25000,lanes=P().map((p,i)
 function bali(){let got=new Set(state.caretaker||[]);scene("bali.jpg",`<div class="quest pixelBox"><h3>CARETAKER QUEST ❤️</h3><button class="btn item" onclick="care('tea')" ${got.has("tea")?"disabled":""}>🍵 WARM TEA ${got.has("tea")?"✓":""}</button><button class="btn item" onclick="care('medicine')" ${got.has("medicine")?"disabled":""}>💊 MEDICINE ${got.has("medicine")?"✓":""}</button><button class="btn item" onclick="care('blanket')" ${got.has("blanket")?"disabled":""}>🛏 BLANKET ${got.has("blanket")?"✓":""}</button>${got.size===3?`<p><b>ACHIEVEMENT UNLOCKED: CARETAKER</b><br>Sometimes the strongest trainers are the ones who stay.</p>${H()?`<button class="btn green" onclick="adv('trivia')">NEXT ▶</button>`:""}`:""}</div>`)}
 function care(x){socket.emit("caretaker:take",x)}
 function trivia(){let q=Q[triviaIndex];if(!q){scene("trivia.jpg",`<div class="triviaPanel pixelBox"><h2>TRIVIA COMPLETE!</h2>${H()?`<button class="btn green" onclick="adv('tavern')">CONTINUE ▶</button>`:"Waiting for host…"}</div>`);return}answered=false;scene("trivia.jpg",`<div class="triviaPanel pixelBox"><h2>WHO KNOWS ARDELL BEST?</h2><div class="question">${E(q[0])}</div><div class="answers">${q[1].map((a,i)=>`<button class="answer" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${E(a)}</button>`).join("")}</div><p>QUESTION ${triviaIndex+1}/5</p><div id="note"></div></div>`)}
-function answer(i){if(answered)return;answered=true;let q=Q[triviaIndex],[...document.querySelectorAll(".answer")].forEach((b,j)=>b.classList.add(j===q[2]?"correct":j===i?"wrong":""));socket.emit("trivia:answer",{question:triviaIndex,answer:i,correct:i===q[2]});document.getElementById("note").innerHTML=(i===q[2]?"<b>CORRECT! +120</b>":"<b>WRONG!</b>")+" "+q[3];setTimeout(()=>{triviaIndex++;trivia()},1050)}
+function answer(i){
+  if(answered) return;
+  answered = true;
+  const q = Q[triviaIndex];
+  const buttons = [...document.querySelectorAll(".answer")];
+  buttons.forEach((b,j)=>{
+    if(j===q[2]) b.classList.add("correct");
+    else if(j===i) b.classList.add("wrong");
+  });
+  socket.emit("trivia:answer",{question:triviaIndex,answer:i,correct:i===q[2]});
+  const note=document.getElementById("note");
+  if(note) note.innerHTML=(i===q[2]?"<b>CORRECT! +120</b>":"<b>WRONG!</b>")+" "+q[3];
+  setTimeout(()=>{triviaIndex++;trivia()},1050);
+}
 function tavern(){scene("tavern.jpg",`<div class="bottomPanel"><button class="btn gold rightAction" ${H()?"":"disabled"} onclick="adv('giftrush')">DRINK & CONTINUE ▶</button><h2>THE THIRSTY BABUY 🍺</h2>GOLDEN POTION: +100 Happiness · −20 Accuracy · +200 Confidence.<br><i>“We serve the finest potion in the region.”</i></div>`)}
 function gift(){seenGifts=new Set();let end=state.giftEndsAt||Date.now()+18000;scene("gift.jpg",`<div class="timer" id="tm">18</div><div class="gifts" id="gifts"></div><div class="bottomPanel"><h2>GIFT RUSH</h2>Collect as many gifts as you can before time runs out!</div>`);let area=document.getElementById("gifts");for(let i=0;i<22;i++){let b=document.createElement("button");b.className="gift";b.id="g-"+i;b.textContent=i%5===0?"🎂":"🎁";b.style.left=(Math.random()*90)+"%";b.style.top=(Math.random()*80)+"%";b.onclick=()=>collect(i);area.appendChild(b)}let tick=setInterval(()=>{if(!state||state.stage!=="giftrush")return clearInterval(tick);let e=document.getElementById("tm");if(e)e.textContent=Math.max(0,Math.ceil((end-Date.now())/1000))},200)}
 function collect(i){if(seenGifts.has(i))return;seenGifts.add(i);socket.emit("gift:collect",i);document.getElementById("g-"+i)?.remove()}
