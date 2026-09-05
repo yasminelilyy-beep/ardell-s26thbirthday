@@ -1,11 +1,27 @@
 const sock=io(),cv=document.querySelector('#game'),g=cv.getContext('2d');
+const W=cv.width,H=cv.height;
 const $=id=>document.getElementById(id);let mouseX=W/2,mouseY=H/2;
 let R=null,ME=null,frame=0,needle=0,ndir=1;
 let localX=50,holdDir=0,lastMoveSend=0,lastStateAt=performance.now();
 
 const sceneFiles={campBack:'camp_back.png',campFront:'camp_front.png',campNight:'camp_night.png',tavernBack:'tavern_back.png',tavernFront:'tavern_front.png',climbBack:'climb_back.png',wallPanel:'wall_panel.png',chalkBack:'chalk_back.png'};
 const scenes={};for(const [k,f] of Object.entries(sceneFiles)){let im=new Image();im.src=`assets/scenes/${f}`;scenes[k]=im}
+const depthFiles={campFg:'camp_foreground.png',tavernFg:'tavern_foreground.png',climbFg:'climb_foreground.png',chalkFg:'chalk_foreground.png'};
+const DEPTH={};for(const [k,f] of Object.entries(depthFiles)){let im=new Image();im.src=`assets/depth/${f}`;DEPTH[k]=im}
 function scene(im){if(im&&im.complete)g.drawImage(im,0,0,1000,620);else rect(0,0,1000,620,'#17243b')}
+function depthLayer(im,strength=8,alpha=1){
+  if(!im||!im.complete)return;
+  const ox=-((mouseX-W/2)/W)*strength;
+  const oy=-((mouseY-H/2)/H)*strength*.35;
+  g.save();g.globalAlpha=alpha;g.drawImage(im,ox,oy,W,H);g.restore();
+}
+function vignette(){
+  const q=g.createRadialGradient(W/2,H*.45,H*.12,W/2,H*.45,W*.68);
+  q.addColorStop(0,'rgba(0,0,0,0)');
+  q.addColorStop(.72,'rgba(0,0,0,.03)');
+  q.addColorStop(1,'rgba(4,8,18,.28)');
+  g.fillStyle=q;g.fillRect(0,0,W,H);
+}
 const names=['ardell','yasmine','drago','snobuy'];const chars=names.map(n=>{let i=new Image();i.src=`assets/cartoon/${n}.svg`;return i});
 let conf=Array.from({length:110},()=>({x:Math.random()*1000,y:Math.random()*620,v:1+Math.random()*4,w:3+Math.random()*7}));
 function rect(x,y,w,h,c,r=0){g.fillStyle=c;if(!r)return g.fillRect(x,y,w,h);g.beginPath();g.roundRect(x,y,w,h,r);g.fill()}
@@ -48,4 +64,4 @@ function setMove(d){if(!(R?.phase==='playing'&&R.round===2))return;holdDir=d}fun
 const keys=new Set();window.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','a','A','d','D'].includes(e.key)){e.preventDefault();keys.add(e.key);holdDir=(keys.has('ArrowLeft')||keys.has('a')||keys.has('A'))?-1:(keys.has('ArrowRight')||keys.has('d')||keys.has('D'))?1:0}});window.addEventListener('keyup',e=>{keys.delete(e.key);holdDir=(keys.has('ArrowLeft')||keys.has('a')||keys.has('A'))?-1:(keys.has('ArrowRight')||keys.has('d')||keys.has('D'))?1:0});
 requestAnimationFrame(movementLoop);render();
 
-window.addEventListener('pointermove',e=>{const r=canvas.getBoundingClientRect();mouseX=(e.clientX-r.left)*W/r.width;mouseY=(e.clientY-r.top)*H/r.height;},{passive:true});
+window.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mouseX=(e.clientX-r.left)*W/r.width;mouseY=(e.clientY-r.top)*H/r.height;},{passive:true});

@@ -1,16 +1,20 @@
-# ARDELL 26 — V12 2.5D Cartoon
+# ARDELL 26 — V12.1 Start Fix
 
-Visual depth rebuild on top of V11/V10.2 mechanics.
+Fixes the V12 JOIN ADVENTURE startup issue.
 
-Added:
-- Separate foreground depth layers for camp, tavern, climbing and chalk scenes.
-- Perspective framing, foreground tables/mats/beams, lantern glows and environmental occlusion.
-- Subtle pointer-driven parallax.
-- Vignette/cinematic depth treatment.
-- Character grounding shadows where supported.
-- Existing Climb, Beer and Catch the Chalk gameplay is preserved.
-- Catch the Chalk smooth/freeze fixes remain.
+Root cause:
+- V12 referenced W/H before they were initialized, which stopped game.js immediately.
+- The new 2.5D DEPTH assets/functions were referenced but were not initialized in the runtime.
+- Pointer parallax used `canvas` instead of the actual canvas variable `cv`.
 
-This is still lightweight 2D browser rendering, but composed like a 2.5D game rather than a flat illustration.
+V12.1 keeps:
+- 2.5D foreground/parallax visual treatment
+- Climb Battle
+- Beer Battle
+- Catch the Chalk
+- smooth/freeze fixes from the previous build
+- multiplayer and final score/podium/birthday flow
 
-Deploy by replacing the current GitHub repo contents and committing to main. Existing Railway project/domain can stay unchanged.
+Deploy:
+Replace the files in the existing GitHub repository and commit to main.
+Railway can keep the same project and public domain.
