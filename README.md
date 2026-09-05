@@ -1,20 +1,8 @@
-# ARDELL 26 — V10 Cartoon + Catch the Chalk
+# ARDELL 26 — V10.2 Chalk Stream Fix
 
-Flow: Lobby → Climb Battle → Beer Battle → Catch the Chalk → Final Score → Podium → Birthday Ending → Play Again.
+Fixes Catch the Chalk freezing. The server timer handle is now stored outside the multiplayer room state, so Socket.IO can continuously serialize and broadcast falling chalk positions.
 
-What changed:
-- Four visibly different cartoon characters: Ardell, Yasmine, Drago, Snobuy.
-- Yasmine is the only female character; the other three are male.
-- Added Catch the Chalk: chalk falls from above while each player moves left/right with a chalk bag to catch it.
-- Chalk movement/catches are synchronized through the server.
-- Final score now includes all three battles.
-- Removed the previous “Same Crazy Friends / Different Heights” wording.
-- Polished climbing gym, tavern, mountain/lobby, score, podium, and ending presentation.
+Also keeps the V10.1 smooth local left/right controls and client-side interpolation.
 
-## Deploy to the existing Railway site
-Replace the contents of the existing GitHub repository with the contents of this folder and commit to `main`. Railway should redeploy automatically. Do not create a new Railway project/domain.
-
-## Controls
-- Climb: press/tap CLIMB.
-- Beer: press/tap DRINK when the moving marker is inside the gold zone.
-- Catch the Chalk: use the on-screen LEFT / RIGHT buttons or keyboard A/D / arrow keys.
+## Update existing Railway project
+Replace the current repo contents with this package, commit to `main`, and let the existing Railway service redeploy. No new project or domain is needed.
