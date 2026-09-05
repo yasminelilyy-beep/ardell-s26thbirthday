@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620" viewBox="0 0 1000 620">
+<defs><radialGradient id="lamp"><stop stop-color="#fff4b4"/><stop offset=".5" stop-color="#ffc75a"/><stop offset="1" stop-color="#ff9f43" stop-opacity="0"/></radialGradient><filter id="blur"><feGaussianBlur stdDeviation="8"/></filter></defs>
+<g opacity=".55"><circle cx="110" cy="82" r="45" fill="url(#lamp)" filter="url(#blur)"/><circle cx="500" cy="82" r="45" fill="url(#lamp)" filter="url(#blur)"/><circle cx="890" cy="82" r="45" fill="url(#lamp)" filter="url(#blur)"/></g>
+<g><line x1="110" y1="0" x2="110" y2="58" stroke="#34231d" stroke-width="4"/><rect x="92" y="52" width="36" height="42" rx="9" fill="#51352a"/><rect x="100" y="59" width="20" height="26" rx="7" fill="#ffd772"/>
+<line x1="500" y1="0" x2="500" y2="58" stroke="#34231d" stroke-width="4"/><rect x="482" y="52" width="36" height="42" rx="9" fill="#51352a"/><rect x="490" y="59" width="20" height="26" rx="7" fill="#ffd772"/>
+<line x1="890" y1="0" x2="890" y2="58" stroke="#34231d" stroke-width="4"/><rect x="872" y="52" width="36" height="42" rx="9" fill="#51352a"/><rect x="880" y="59" width="20" height="26" rx="7" fill="#ffd772"/></g>
+<g fill="#9e6743"><ellipse cx="145" cy="475" rx="66" ry="18"/><rect x="132" y="475" width="26" height="92" rx="10"/><ellipse cx="500" cy="475" rx="72" ry="19"/><rect x="487" y="475" width="26" height="92" rx="10"/><ellipse cx="855" cy="475" rx="66" ry="18"/><rect x="842" y="475" width="26" height="92" rx="10"/></g>
+</svg>

@@ -1,8 +1,18 @@
-# ARDELL 26 — V10.2 Chalk Stream Fix
+# ARDELL 26 — V10.4 Illustrated Layered Backgrounds
 
-Fixes Catch the Chalk freezing. The server timer handle is now stored outside the multiplayer room state, so Socket.IO can continuously serialize and broadcast falling chalk positions.
+This build keeps the V10.2/V10.3 gameplay and smooth Catch the Chalk logic, but replaces the blocky Canvas-only environments with illustrated SVG game assets rendered as separate layers.
 
-Also keeps the V10.1 smooth local left/right controls and client-side interpolation.
+## What changed
+- New illustrated scene assets in `public/assets/scenes/`.
+- Camp/mountain/lake daytime backdrop + separate foreground layer.
+- Night camp/lake backdrop for score and birthday ending.
+- Tavern illustrated background + separate foreground furniture/lighting layer.
+- Outdoor climbing environment + reusable illustrated climbing wall panel asset.
+- Indoor chalk gym illustrated background.
+- Characters, chalk, UI, scores, controls and gameplay remain separate interactive elements; no full-screen screenshot mockup is used.
 
-## Update existing Railway project
-Replace the current repo contents with this package, commit to `main`, and let the existing Railway service redeploy. No new project or domain is needed.
+## Flow
+Lobby → Climb Battle → Beer Battle → Catch the Chalk → Final Score → Podium → Birthday Ending → Play Again
+
+## Deploy
+Replace the contents of the existing GitHub repo with this build and commit to `main`. Keep the same Railway project/domain.

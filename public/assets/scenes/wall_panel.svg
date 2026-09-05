@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="445" viewBox="0 0 220 445">
+<defs><linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4f0e7"/><stop offset="1" stop-color="#d9d3c8"/></linearGradient><filter id="ds"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity=".18"/></filter></defs>
+<rect x="4" y="4" width="212" height="437" rx="22" fill="url(#wall)" stroke="#c3bbae" stroke-width="5"/>
+<g opacity=".16" stroke="#9a958c"><path d="M8 92h204"/><path d="M8 182h204"/><path d="M8 272h204"/><path d="M8 362h204"/></g>
+<g filter="url(#ds)"><polygon points="35,80 76,52 94,100 56,116" fill="#db6e71"/><polygon points="128,144 178,119 196,162 150,183" fill="#658fcf"/><polygon points="44,226 93,197 111,249 66,266" fill="#c89255"/><polygon points="122,314 175,285 194,338 145,354" fill="#77a86d"/></g>
+<g><ellipse cx="43" cy="145" rx="12" ry="8" fill="#ef5f69" transform="rotate(-20 43 145)"/><ellipse cx="92" cy="132" rx="10" ry="7" fill="#55a9e7"/><ellipse cx="160" cy="90" rx="12" ry="8" fill="#f1b840"/><ellipse cx="181" cy="230" rx="11" ry="8" fill="#65b878"/><ellipse cx="70" cy="330" rx="12" ry="8" fill="#9d6bd1"/><ellipse cx="153" cy="388" rx="10" ry="7" fill="#f27d43"/><ellipse cx="118" cy="250" rx="8" ry="6" fill="#55a9e7"/><ellipse cx="34" cy="392" rx="10" ry="7" fill="#ef5f69"/><ellipse cx="184" cy="390" rx="9" ry="6" fill="#f1b840"/></g>
+</svg>
