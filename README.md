@@ -1,11 +1,13 @@
-# ARDELL 26 — V8 Cartoon Rebuild
+# ARDELL 26 — V9 Cartoon Two-Battle Edition
 
-This version keeps the real Socket.IO multiplayer gameplay but replaces the pixel-art presentation with smooth cartoon/chibi vector assets.
+Flow: Lobby → Climb Battle → Beer Battle → Final Score → Podium → Birthday Ending → Play Again.
 
-## Existing Railway update
-Replace the contents of your existing GitHub repository with everything in this ZIP, then commit to `main`. Railway will redeploy the existing service/domain automatically. Do not create a new Railway project.
+Changes:
+- Catch the Babuy battle removed completely.
+- “Same Crazy Friends • Different Heights” removed.
+- Four fixed cartoon avatars: 1 female (Yasmine) + 3 male (Ardell, Drago, Snobuy).
+- Cleaner birthday-adventure lobby and two-battle scoring.
+- Existing 2–4 player Socket.IO multiplayer retained.
 
-## Flow
-Lobby → Climb Battle → Beer Battle → Catch the Babuy → Final Score → Podium → Birthday Ending → Play Again.
-
-2–4 players. Default room: `BABUY26`.
+## Deploy
+Replace the contents of the existing GitHub repo with this package, commit to `main`, and let the existing Railway service redeploy automatically. No new Railway project/domain is needed.
