@@ -1,14 +1,16 @@
-# ARDELL 26 — V11 Painted Game Art
+# ARDELL 26 — V12 2.5D Cartoon
 
-Visual rebuild based on V10.4/V10.2 gameplay.
+Visual depth rebuild on top of V11/V10.2 mechanics.
 
-What changed:
-- Real raster illustrated environments are loaded as game assets, not screenshots of the UI.
-- Mountain/lake camp, tavern, climbing gym, and chalk gym were rebuilt with textured painted backgrounds.
-- Characters, HUD, chalk, chalk bags, meters and controls remain separate interactive elements.
-- Catch the Chalk smooth/freeze fixes are preserved.
-- Flow remains: Climb → Beer → Catch the Chalk → Final Score → Podium → Birthday Ending.
+Added:
+- Separate foreground depth layers for camp, tavern, climbing and chalk scenes.
+- Perspective framing, foreground tables/mats/beams, lantern glows and environmental occlusion.
+- Subtle pointer-driven parallax.
+- Vignette/cinematic depth treatment.
+- Character grounding shadows where supported.
+- Existing Climb, Beer and Catch the Chalk gameplay is preserved.
+- Catch the Chalk smooth/freeze fixes remain.
 
-Deploy:
-Replace the contents of the existing GitHub repository with this package and commit to main.
-Railway will redeploy the existing service/domain.
+This is still lightweight 2D browser rendering, but composed like a 2.5D game rather than a flat illustration.
+
+Deploy by replacing the current GitHub repo contents and committing to main. Existing Railway project/domain can stay unchanged.
